@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+    <display-name>TestHessian Tapestry 5 Application</display-name>
+    <context-param>
+        <!--
+        The only significant configuration for Tapestry 5, this informs Tapestry
+        of where to look for pages, components and mixins.
+        -->
+        <param-name>tapestry.app-package</param-name>
+        <param-value>com.hessian</param-value>
+    </context-param>
+
+    <!--
+    Specify some additional Modules for two different execution
+    modes: development and qa.
+    Remember that the default execution mode is production
+    -->
+    <context-param>
+        <param-name>tapestry.development-modules</param-name>
+        <param-value>
+            com.hessian.services.DevelopmentModule
+        </param-value>
+    </context-param>
+    <context-param>
+        <param-name>tapestry.qa-modules</param-name>
+        <param-value>
+            com.hessian.services.QaModule
+        </param-value>
+    </context-param>
+
+
+    <!-- Filter configuration -->
+    <!--<servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>-->
+
+    <servlet>
+        <servlet-name>HelloHessian</servlet-name>
+        <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class><!-- RPC HessianServlet处理类 -->
+        <init-param>
+            <param-name>home-class</param-name><!-- 远程服务实现类 -->
+            <param-value>com.hessian.Test.HelloHessianImpl</param-value>
+        </init-param>
+        <init-param>
+            <param-name>home-api</param-name><!-- 远程服务接口 -->
+            <param-value>com.hessian.Test.HelloHessian</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HelloHessian</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404</location>
+    </error-page>
+
+</web-app>
